@@ -159,6 +159,18 @@
   }
 
   .root-container {
-    @apply bg-gray-50;
+    @apply bg-[var(--primitives-gray-50)] min-h-screen grid grid-cols-[auto_1fr];
+  }
+
+  .sidebar-container {
+    @apply box-border h-screen w-20 py-6 bg-[var(--complimentary-8)] flex flex-col justify-between relative;
+
+    .sidebar-item {
+      @apply flex flex-col items-center text-xs gap-2 text-black font-medium mb-[54px] hover:border-l-4 border-l-black;
+
+    }
+
+
+
   }
 }

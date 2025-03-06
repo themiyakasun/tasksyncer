@@ -167,7 +167,10 @@
 
     .sidebar-item {
       @apply flex flex-col items-center text-xs gap-2 text-black font-medium mb-[54px] hover:border-l-4 border-l-black;
+    }
 
+    .sync-up-item {
+      @apply py-4 pl-4 pr-6 flex gap-3 items-center font-medium hover:bg-black hover:text-white hover:fill-white w-full rounded-[8px];
     }
 
 

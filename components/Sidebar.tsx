@@ -1,18 +1,26 @@
 "use client";
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, MouseEvent } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import useClickOutside from "@/hooks/useClickOutside";
+import { useModalsStore } from "@/stores/modals";
 
 const Sidebar = () => {
   const ref = useRef<HTMLButtonElement | null>(null);
+  const { showAddTaskModal } = useModalsStore((state) => state);
   const [isOpen, setIsOpen] = useState(false);
 
   const handleClickOutside = () => {
     setIsOpen(false);
   };
 
+  const handleOpenTaskModal = () => {
+    showAddTaskModal();
+  };
+
   useClickOutside(ref, () => setIsOpen(false));
+
+  console.log(showAddTaskModal);
 
   return (
     <div className="sidebar-container">
@@ -36,7 +44,10 @@ const Sidebar = () => {
             </h1>
             <ul>
               <li>
-                <div className="sync-up-item cursor-pointer item">
+                <div
+                  className="sync-up-item cursor-pointer item"
+                  onClick={handleOpenTaskModal}
+                >
                   <svg
                     className="fill-black item-hover:fill-white "
                     width="24"

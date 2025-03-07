@@ -170,10 +170,17 @@
     }
 
     .sync-up-item {
-      @apply py-4 pl-4 pr-6 flex gap-3 items-center font-medium hover:bg-black hover:text-white hover:fill-white w-full rounded-[8px];
+      @apply py-4 pl-4 pr-6 flex gap-3 items-center font-medium hover:bg-black hover:text-white w-full rounded-[8px];
     }
 
-
-
   }
+
+  .modal-wrapper {
+    @apply overflow-y-hidden overflow-x-hidden fixed top-0 right-0 left-0 bottom-0 z-50 flex justify-center items-center  w-full max-h-full bg-black/50;
+
+    .modal {
+      @apply bg-white rounded-[8px] shadow-md max-h-[800px] overflow-scroll;
+    }
+  }
+
 }

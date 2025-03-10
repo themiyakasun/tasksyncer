@@ -7,7 +7,9 @@ import { useModalsStore } from "@/stores/modals";
 
 const Sidebar = () => {
   const ref = useRef<HTMLButtonElement | null>(null);
-  const { showAddTaskModal } = useModalsStore((state) => state);
+  const { showAddTaskModal, showMeetingScheduleModal } = useModalsStore(
+    (state) => state,
+  );
   const [isOpen, setIsOpen] = useState(false);
 
   const handleClickOutside = () => {
@@ -66,7 +68,10 @@ const Sidebar = () => {
                   </svg>
                   Tasks
                 </div>
-                <div className="sync-up-item cursor-pointer">
+                <div
+                  className="sync-up-item cursor-pointer"
+                  onClick={showMeetingScheduleModal}
+                >
                   <Image
                     src="/icons/video-camera.svg"
                     alt="meeting schedule"

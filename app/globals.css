@@ -176,11 +176,23 @@
   }
 
   .modal-wrapper {
-    @apply overflow-y-hidden overflow-x-hidden fixed top-0 right-0 left-0 bottom-0 z-50 flex justify-center items-center  w-full max-h-full bg-black/50 ;
+    @apply overflow-y-hidden overflow-x-hidden fixed top-0 right-0 left-0 bottom-0 z-50 flex justify-center items-center  w-full max-h-full bg-black/50 transition-opacity duration-300 inset-0 ;
 
     .modal {
       @apply bg-white rounded-[8px] shadow-md max-h-[800px] overflow-scroll;
     }
+  }
+
+  .auth-container {
+    @apply bg-[#F9FBFC] relative flex flex-col-reverse sm:flex-row;
+  }
+
+  .auth-form {
+    @apply my-auto flex h-full min-h-screen flex-1 items-center px-5 py-10;
+  }
+
+  .auth-box {
+    @apply rounded-[8px] shadow-xl bg-white mx-auto flex min-w-xl flex-col gap-6 p-10;
   }
 
 }

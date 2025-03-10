@@ -23,7 +23,7 @@ const FormField = ({
   return (
     <div className="w-full">
       {title && (
-        <Label className="text-xs text-[var(--primitives-gray-600)]">
+        <Label className="text-xs text-[var(--primitives-gray-600)] capitalize">
           {title}
         </Label>
       )}

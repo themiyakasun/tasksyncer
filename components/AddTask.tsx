@@ -22,7 +22,7 @@ const AddTask = ({ show }: Props) => {
 
   return (
     <div
-      className={`modal-wrapper ${show ? "opacity-100" : "opacity-0 pointer-events-none"} transition-opacity duration-300 inset-0 `}
+      className={`modal-wrapper ${show ? "opacity-100" : "opacity-0 pointer-events-none"} `}
       data-dialog-backdrop="modal"
       data-dialog-backdrop-close="true"
     >
@@ -41,9 +41,8 @@ const AddTask = ({ show }: Props) => {
         </div>
 
         <form>
-          <h2 className="text-lg font-medium text-black">Details</h2>
-
           <div className="flex flex-col gap-6">
+            <h2 className="text-lg font-medium text-black">Details</h2>
             <FormField
               type="text"
               title="Task Name *"

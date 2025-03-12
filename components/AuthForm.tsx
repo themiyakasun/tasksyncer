@@ -11,6 +11,8 @@ import {
 } from "react-hook-form";
 import { z, ZodType } from "zod";
 import Link from "next/link";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 import {
   Form,
@@ -41,10 +43,24 @@ const AuthForm = <T extends FieldValues>({
     resolver: zodResolver(schema),
     defaultValues: defaultValues as DefaultValues<any>,
   });
-
+  const router = useRouter();
   const isSignIn = type === "SIGN_IN";
 
-  const handleSubmit: SubmitHandler<T> = async (data) => {};
+  const handleSubmit: SubmitHandler<T> = async (data) => {
+    const result = await onSubmit(data);
+
+    if (result.success) {
+      toast.success(
+        isSignIn
+          ? "You successfully logged in"
+          : "You successfully created account",
+      );
+
+      router.push("/");
+    } else {
+      toast.error(isSignIn ? "Error sign in" : "Error sign up");
+    }
+  };
 
   return (
     <div className="flex flex-col gap-4 w-full">
@@ -53,7 +69,7 @@ const AuthForm = <T extends FieldValues>({
       </h1>
       <Form {...form}>
         <form
-          onSubmit={form.handleSubmit(onSubmit)}
+          onSubmit={form.handleSubmit(handleSubmit)}
           className="space-y-8 w-full"
         >
           {Object.keys(defaultValues).map((field) => (
@@ -84,7 +100,7 @@ const AuthForm = <T extends FieldValues>({
             />
           ))}
 
-          <Button type="submit" className="w-full">
+          <Button type="submit" className="w-full cursor-pointer">
             {isSignIn ? "Sign In" : "Create Account"}
           </Button>
         </form>

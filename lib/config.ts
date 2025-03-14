@@ -7,6 +7,10 @@ const config = {
       privateKey: process.env.IMAGEKIT_PRIVATE_KEY!,
     },
     databaseUrl: process.env.NEXT_PUBLIC_DATABASE_URL!,
+    uptash: {
+      redisUrl: process.env.UPTASH_REDIS_URL!,
+      redisToken: process.env.UPTASH_REDIS_TOKEN!,
+    },
   },
 };
 

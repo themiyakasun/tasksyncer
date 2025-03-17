@@ -10,19 +10,17 @@ import ColorButton from "@/components/ColorButton";
 import { Button } from "@/components/ui/button";
 import { useModalsStore } from "@/stores/modals";
 
-type Props = {
-  show: boolean;
-};
-
-const AddTask = ({ show }: Props) => {
-  const { hideAddTaskModal } = useModalsStore((state) => state);
+const AddTask = () => {
+  const { hideAddTaskModal, addTaskModalVisible } = useModalsStore(
+    (state) => state,
+  );
   const [startDate, setStartDate] = useState<Date | undefined>(new Date());
   const [endDate, setEndDate] = useState<Date | undefined>(new Date());
   const [selectedColor, setSelectedColor] = useState<String>("#D1E3F5");
 
   return (
     <div
-      className={`modal-wrapper ${show ? "opacity-100" : "opacity-0 pointer-events-none"} `}
+      className={`modal-wrapper ${addTaskModalVisible ? "opacity-100" : "opacity-0 pointer-events-none"} `}
       data-dialog-backdrop="modal"
       data-dialog-backdrop-close="true"
     >

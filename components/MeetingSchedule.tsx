@@ -1,3 +1,5 @@
+"use client";
+
 import { useState, MouseEvent } from "react";
 import Image from "next/image";
 
@@ -7,12 +9,9 @@ import { Button } from "@/components/ui/button";
 import TimeInput from "@/components/TimeInput";
 import AssignCard from "@/components/AssignCard";
 
-type Props = {
-  show: boolean;
-};
-
-const MeetingSchedule = ({ show }: Props) => {
-  const { hideMeetingScheduleModal } = useModalsStore((state) => state);
+const MeetingSchedule = () => {
+  const { hideMeetingScheduleModal, meetingScheduleModalVisible } =
+    useModalsStore((state) => state);
   const [window, setWindow] = useState<Number>(1);
 
   const handleNextSlide = (e: MouseEvent<HTMLButtonElement>) => {
@@ -26,7 +25,7 @@ const MeetingSchedule = ({ show }: Props) => {
 
   return (
     <div
-      className={`modal-wrapper ${show ? "opacity-100" : "opacity-0 pointer-events-none"} `}
+      className={`modal-wrapper ${meetingScheduleModalVisible ? "opacity-100" : "opacity-0 pointer-events-none"} `}
       data-dialog-backdrop="modal"
       data-dialog-backdrop-close="true"
     >

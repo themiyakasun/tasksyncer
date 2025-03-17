@@ -36,14 +36,16 @@ const authenticator = async () => {
 
 const ImageUpload = ({
   onFileChange,
+  folder,
 }: {
   onFileChange: (filePath: string) => void;
+  folder: string;
 }) => {
   const ikUploadRef = useRef(null);
   const [file, setFile] = useState<{ filePath: string } | null>(null);
 
   const onError = (error: any) => {
-    console.error(error);
+    console.log(error);
 
     toast.error("Image upload failed");
   };
@@ -66,6 +68,8 @@ const ImageUpload = ({
         ref={ikUploadRef}
         onError={onError}
         onSuccess={onSuccess}
+        useUniqueFileName={true}
+        folder={folder}
       />
 
       <button

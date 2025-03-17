@@ -84,7 +84,10 @@ const AuthForm = <T extends FieldValues>({
                   </FormLabel>
                   <FormControl>
                     {field.name === "avatar" ? (
-                      <ImageUpload onFileChange={field.onChange} />
+                      <ImageUpload
+                        onFileChange={field.onChange}
+                        folder={"tasyncer/users"}
+                      />
                     ) : (
                       <Input
                         type={

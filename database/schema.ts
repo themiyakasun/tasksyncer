@@ -2,7 +2,6 @@ import {
   uuid,
   integer,
   pgTable,
-  serial,
   text,
   timestamp,
   varchar,
@@ -32,4 +31,14 @@ export const payments = pgTable("payments", {
     .references(() => users.email),
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(),
   updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow(),
+});
+
+export const boards = pgTable("boards", {
+  id: uuid("id").notNull().primaryKey().defaultRandom().unique(),
+  title: varchar("title", { length: 255 }).notNull(),
+  owner: uuid("owner_id")
+    .notNull()
+    .references(() => users.id),
+  collaborators: text("collaborators").array().default([]),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(),
 });

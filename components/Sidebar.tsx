@@ -22,8 +22,6 @@ const Sidebar = () => {
 
   useClickOutside(ref, () => setIsOpen(false));
 
-  console.log(showAddTaskModal);
-
   return (
     <div className="sidebar-container">
       <div>

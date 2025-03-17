@@ -5,3 +5,7 @@ interface AuthCredentials {
   phoneNumber: string;
   avatar: string;
 }
+
+interface Board {
+  title: string;
+}

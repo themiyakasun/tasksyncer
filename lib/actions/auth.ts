@@ -1,11 +1,11 @@
 "use server";
 
-import { eq } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 import { hash } from "bcryptjs";
 
 import { users } from "@/database/schema";
 import { db } from "@/database/drizzle";
-import { signIn } from "@/auth";
+import { signIn, signOut } from "@/auth";
 import { headers } from "next/headers";
 import ratelimit from "@/lib/ratelimit";
 import { redirect } from "next/navigation";
@@ -73,4 +73,13 @@ export const signUp = async (params: AuthCredentials) => {
     console.log(error, "Sign up error");
     return { success: false, error: "Sign up error" };
   }
+};
+
+export const getUsersPriceId = async (email: string) => {
+  const result = await db
+    .select({ priceId: users.priceId })
+    .from(users)
+    .where(and(eq(users.email, email), eq(users.status, "active")));
+
+  return result?.[0]?.priceId || null;
 };

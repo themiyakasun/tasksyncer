@@ -195,4 +195,8 @@
     @apply rounded-[8px] shadow-xl bg-white mx-auto flex min-w-xl flex-col gap-6 p-10;
   }
 
+  .navbar-wrapper {
+    @apply bg-[var(--complimentary-8)] flex items-center justify-between py-3 px-8 max-h-16;
+  }
+
 }

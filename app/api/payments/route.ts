@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
-import { handleCheckoutSessionCompleted } from "@/lib/actions/payments";
+import {
+  handleCheckoutSessionCompleted,
+  handleSubscriptionCancel,
+} from "@/lib/actions/payments";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
@@ -18,7 +21,6 @@ export const POST = async (req: NextRequest) => {
 
     switch (event.type) {
       case "checkout.session.completed":
-        console.log("Checkout session completed");
         const sessionId = event.data.object.id;
         const session = await stripe.checkout.sessions.retrieve(sessionId, {
           expand: ["line_items"],
@@ -28,13 +30,14 @@ export const POST = async (req: NextRequest) => {
 
         break;
       case "customer.subscription.deleted":
-        console.log("Customer subscription deleted");
         const subscription = event.data.object;
-        console.log("subscription", subscription);
+        const subscriptionId = event.data.object.id;
+
+        await handleSubscriptionCancel({ subscriptionId, stripe });
         break;
 
       default:
-        console.log(`Unhandle event ${event.type}`);
+        console.log(`Unhandled event ${event.type}`);
     }
   } catch (error) {
     return NextResponse.json({ error: "Invalid signature" }, { status: 400 });

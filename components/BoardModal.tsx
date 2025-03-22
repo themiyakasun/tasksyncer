@@ -17,7 +17,7 @@ const BoardModal = () => {
     >
       <div className="modal max-w-[600px] p-6" data-dialog-backdrop="modal">
         <div className="flex items-center justify-between mb-6">
-          <h1 className="text-2xl font-medium text-black">Add Task</h1>
+          <h1 className="text-2xl font-medium text-black">Create Board</h1>
 
           <button onClick={hideBoardModal} className="cursor-pointer">
             <Image

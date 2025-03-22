@@ -15,4 +15,5 @@ export const signInSchema = z.object({
 
 export const bookSchema = z.object({
   title: z.string().min(3),
+  collaborators: z.array(z.string()),
 });

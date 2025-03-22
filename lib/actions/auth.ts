@@ -1,11 +1,11 @@
 "use server";
 
-import { and, eq } from "drizzle-orm";
+import { and, eq, ne } from "drizzle-orm";
 import { hash } from "bcryptjs";
 
 import { users } from "@/database/schema";
 import { db } from "@/database/drizzle";
-import { signIn, signOut } from "@/auth";
+import { signIn } from "@/auth";
 import { headers } from "next/headers";
 import ratelimit from "@/lib/ratelimit";
 import { redirect } from "next/navigation";
@@ -82,4 +82,9 @@ export const getUsersPriceId = async (email: string) => {
     .where(and(eq(users.email, email), eq(users.status, "active")));
 
   return result?.[0]?.priceId || null;
+};
+
+export const getUsersExceptOrganizer = async (id: string) => {
+  const result = await db.select().from(users).where(ne(users.id, id));
+  return result || null;
 };

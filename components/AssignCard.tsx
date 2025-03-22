@@ -1,19 +1,39 @@
+"use client";
+
 import Image from "next/image";
+import { IKImage } from "imagekitio-next";
+import config from "@/lib/config";
 
 type Props = {
   name: string;
+  email: string;
   img: string;
   className?: string;
   organizer?: boolean;
+  onSelect: (email: string) => void;
 };
 
-const AssignCard = ({ name, img, className, organizer }: Props) => {
+const AssignCard = ({
+  name,
+  email,
+  img,
+  className,
+  organizer,
+  onSelect,
+}: Props) => {
   return (
     <div
-      className={`flex items-center justify-between mb-5 ${className && className}`}
+      className={`flex items-center justify-between mb-5 cursor-pointer ${className && className}`}
+      onClick={() => onSelect(email)}
     >
       <div className="flex items-center gap-2">
-        <Image src={img} alt={name} width={32} height={32} />
+        <IKImage
+          path={img}
+          urlEndpoint={config.env.imageKit.urlEndPoint}
+          alt={name}
+          width={32}
+          height={32}
+        />
         <div>
           <h3 className="text-sm text-black font-medium">{name}</h3>
           {organizer && (

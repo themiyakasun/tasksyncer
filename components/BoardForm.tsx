@@ -27,7 +27,6 @@ import { bookSchema } from "@/lib/validations";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { cn } from "@/lib/utils";
 import Tag from "@/components/Tag";
-import AssignCard from "@/components/AssignCard";
 import CollaboratorsList from "@/components/CollaboratorsList";
 
 interface Props extends Partial<Board> {
@@ -52,8 +51,27 @@ const BoardForm = ({ type, ...board }: Props) => {
     }
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key !== "Enter") return;
+
+    if (
+      !collaborators.some(
+        (collaborator: string) => collaborator === e.currentTarget.value,
+      )
+    ) {
+      form.setValue("collaborators", [...collaborators, e.currentTarget.value]);
+    }
+  };
+
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
+  };
+
+  const removeCollaborator = (email: string) => {
+    const newList = collaborators.filter(
+      (collaborator) => collaborator !== email,
+    );
+    form.setValue("collaborators", newList);
   };
 
   const onSubmit = async (values: z.infer<typeof bookSchema>) => {};
@@ -101,17 +119,24 @@ const BoardForm = ({ type, ...board }: Props) => {
                         type="collaborators"
                         {...field}
                         onChange={handleSearch}
+                        onKeyDown={handleKeyDown}
                         value={searchTerm}
                         className={cn(
                           "border-none focus:border-none focus-visible:ring-0",
                         )}
                       />
 
-                      <div className="mx-3 inline-flex flex-col gap-2 mb-2">
-                        {collaborators.map((collaborator, index) => (
-                          <Tag collaborator={collaborator} key={index} />
-                        ))}
-                      </div>
+                      {collaborators.length > 0 && (
+                        <div className="mx-3 inline-flex flex-col gap-2 mb-2">
+                          {collaborators.map((collaborator, index) => (
+                            <Tag
+                              collaborator={collaborator}
+                              key={index}
+                              handleRemoveCollaborator={removeCollaborator}
+                            />
+                          ))}
+                        </div>
+                      )}
                     </div>
                     <CollaboratorsList
                       searchTerm={searchTerm}

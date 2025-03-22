@@ -15,15 +15,17 @@ const CollaboratorsList = ({
   collaborators?: string[];
   onSelect: (email: string) => void;
 }) => {
-  const [user, setUser] = useState<User[]>([]);
+  const [users, setUsers] = useState<User[]>([]);
 
   useEffect(() => {
-    const fetchUser = async () => {
+    const fetchUsers = async () => {
       const session = await getSession();
-      const users = await getUsersExceptOrganizer(session?.user?.id as string);
-      setUser(users);
+      const usersResult = await getUsersExceptOrganizer(
+        session?.user?.id as string,
+      );
+      setUsers(usersResult);
     };
-    fetchUser();
+    fetchUsers();
   }, []);
 
   return (
@@ -31,7 +33,7 @@ const CollaboratorsList = ({
       {searchTerm === "" ? (
         <></>
       ) : (
-        user
+        users
           .filter((user) =>
             user.fullName.toLowerCase().includes(searchTerm.toLowerCase()),
           )

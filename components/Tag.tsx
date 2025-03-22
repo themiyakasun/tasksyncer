@@ -1,10 +1,23 @@
+import React from "react";
+
 type Props = {};
 
-const Tag = ({ collaborator }: { collaborator?: string }) => {
+const Tag = ({
+  collaborator,
+  handleRemoveCollaborator,
+}: {
+  collaborator: string;
+  handleRemoveCollaborator: (email: string) => void;
+}) => {
   return (
-    <div className="inline-block bg-[var(--primitives-gray-300)] rounded-[8px] px-2 text-xs">
+    <div className="inline-block justify-between bg-[var(--primitives-gray-300)] rounded-[8px] px-2 text-xs">
       {collaborator}
-      <span className="ml-2">&times;</span>
+      <span
+        className="ml-2 cursor-pointer"
+        onClick={() => handleRemoveCollaborator(collaborator)}
+      >
+        &times;
+      </span>
     </div>
   );
 };

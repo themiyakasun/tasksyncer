@@ -39,6 +39,14 @@ export const boards = pgTable("boards", {
   owner: uuid("owner_id")
     .notNull()
     .references(() => users.id),
-  collaborators: text("collaborators").array().default([]),
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(),
+});
+
+export const boardCollaborators = pgTable("board_collaborators", {
+  id: uuid("id").notNull().primaryKey().defaultRandom().unique(),
+  boardId: uuid("board_id")
+    .notNull()
+    .references(() => boards.id),
+  collaborator: varchar("collaborator", { length: 255 }).notNull(),
+  status: varchar("status", { length: 50 }).default("not_accepted"),
 });

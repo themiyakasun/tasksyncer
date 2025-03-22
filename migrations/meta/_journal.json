@@ -15,6 +15,20 @@
       "when": 1742206336252,
       "tag": "0001_black_epoch",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1742658238197,
+      "tag": "0002_thick_galactus",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1742658501035,
+      "tag": "0003_dashing_paper_doll",
+      "breakpoints": true
     }
   ]
 }

@@ -23,11 +23,13 @@ import {
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { bookSchema } from "@/lib/validations";
+import { boardSchema } from "@/lib/validations";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { cn } from "@/lib/utils";
 import Tag from "@/components/Tag";
 import CollaboratorsList from "@/components/CollaboratorsList";
+import { createBoard } from "@/lib/actions/board";
+import { useModalsStore } from "@/stores/modals";
 
 interface Props extends Partial<Board> {
   type?: "CREATE" | "UPDATE";
@@ -35,8 +37,9 @@ interface Props extends Partial<Board> {
 
 const BoardForm = ({ type, ...board }: Props) => {
   const [searchTerm, setSearchTerm] = useState("");
-  const form = useForm<z.infer<typeof bookSchema>>({
-    resolver: zodResolver(bookSchema),
+  const { hideBoardModal } = useModalsStore((state) => state);
+  const form = useForm<z.infer<typeof boardSchema>>({
+    resolver: zodResolver(boardSchema),
     defaultValues: {
       title: "",
       collaborators: [],
@@ -74,7 +77,16 @@ const BoardForm = ({ type, ...board }: Props) => {
     form.setValue("collaborators", newList);
   };
 
-  const onSubmit = async (values: z.infer<typeof bookSchema>) => {};
+  const onSubmit = async (values: z.infer<typeof boardSchema>) => {
+    const result = await createBoard(values);
+
+    if (result.success) {
+      toast.success("Board added successfully.");
+      hideBoardModal();
+    } else {
+      toast.error("Error creating board.");
+    }
+  };
 
   return (
     <div className="flex flex-col gap-4 w-full">
@@ -140,7 +152,6 @@ const BoardForm = ({ type, ...board }: Props) => {
                     </div>
                     <CollaboratorsList
                       searchTerm={searchTerm}
-                      collaborators={collaborators}
                       onSelect={addCollaborators}
                     />
                   </div>

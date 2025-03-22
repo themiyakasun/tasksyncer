@@ -8,11 +8,9 @@ import AssignCard from "@/components/AssignCard";
 
 const CollaboratorsList = ({
   searchTerm,
-  collaborators,
   onSelect,
 }: {
   searchTerm: string;
-  collaborators?: string[];
   onSelect: (email: string) => void;
 }) => {
   const [users, setUsers] = useState<User[]>([]);

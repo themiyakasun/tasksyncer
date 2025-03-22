@@ -1,0 +1,1 @@
+ALTER TABLE "board_collaborators" ALTER COLUMN "id" SET DEFAULT gen_random_uuid();

@@ -8,6 +8,7 @@ interface AuthCredentials {
 
 interface Board {
   title: string;
+  collaborators: string[];
 }
 
 interface User {

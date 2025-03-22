@@ -13,7 +13,12 @@ export const signInSchema = z.object({
   password: z.string().min(8),
 });
 
-export const bookSchema = z.object({
+export const boardSchema = z.object({
   title: z.string().min(3),
   collaborators: z.array(z.string()),
+});
+
+export const boardCollaboratorsSchema = z.object({
+  collaborator: z.string().email(),
+  status: z.string().min(3),
 });

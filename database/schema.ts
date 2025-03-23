@@ -50,3 +50,30 @@ export const boardCollaborators = pgTable("board_collaborators", {
   collaborator: varchar("collaborator", { length: 255 }).notNull(),
   status: varchar("status", { length: 50 }).default("not_accepted"),
 });
+
+export const tasks = pgTable("tasks", {
+  id: uuid("id").notNull().defaultRandom().unique(),
+  name: varchar("name", { length: 255 }).notNull(),
+  boardId: uuid("board_id")
+    .notNull()
+    .references(() => boards.id),
+  description: text("description"),
+  priority: varchar("priority", { length: 50 }).notNull(),
+  startAt: timestamp("start_at", { withTimezone: true }).defaultNow(),
+  endAt: timestamp("end_at", { withTimezone: true }).defaultNow(),
+  timelineColor: varchar("timeline_color", { length: 50 }).notNull(),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(),
+});
+
+export const tasksCollaborators = pgTable("task_collaborators", {
+  taskId: uuid("task_id")
+    .notNull()
+    .references(() => tasks.id),
+  collaborator: uuid("collaborator")
+    .notNull()
+    .references(() => boardCollaborators.id),
+});
+
+export const labs = pgTable("labs", {
+  id: uuid("id").notNull(),
+});

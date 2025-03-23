@@ -7,23 +7,29 @@ import { getUsersExceptOrganizer } from "@/lib/actions/auth";
 import AssignCard from "@/components/AssignCard";
 import { getBoardCollaborators } from "@/lib/actions/board";
 
-const CollaboratorsList = ({
+interface BoardCollaboratorsFilterProps {
+  users: User;
+  board_collaborators: BoardCollaborator;
+}
+
+const BoardCollaboratorsFilter = ({
   searchTerm,
   onSelect,
+  boardId,
 }: {
   searchTerm: string;
   onSelect: (email: string) => void;
+  boardId: string;
 }) => {
-  const [users, setUsers] = useState<User[]>([]);
+  const [users, setUsers] = useState<BoardCollaboratorsFilterProps[]>([]);
 
   useEffect(() => {
     const fetchUsers = async () => {
-      const session = await getSession();
-      const id = session?.user?.id as string;
+      const usersResult = await getBoardCollaborators(boardId);
 
-      const usersResult = await getUsersExceptOrganizer(id);
-
-      setUsers(usersResult);
+      if (usersResult) {
+        setUsers(usersResult);
+      }
     };
 
     fetchUsers();
@@ -35,14 +41,16 @@ const CollaboratorsList = ({
         ? null
         : users
             .filter((user) =>
-              user.fullName.toLowerCase().includes(searchTerm.toLowerCase()),
+              user.users.fullName
+                .toLowerCase()
+                .includes(searchTerm.toLowerCase()),
             )
             .map((filteredUser) => (
               <AssignCard
-                name={filteredUser.fullName}
-                email={filteredUser.email}
-                img={filteredUser.avatar}
-                key={filteredUser.id}
+                name={filteredUser.users.fullName}
+                email={filteredUser.users.email}
+                img={filteredUser.users.avatar}
+                key={filteredUser.users.id}
                 onSelect={onSelect}
               />
             ))}
@@ -50,4 +58,4 @@ const CollaboratorsList = ({
   );
 };
 
-export default CollaboratorsList;
+export default BoardCollaboratorsFilter;

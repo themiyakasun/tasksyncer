@@ -2,12 +2,12 @@ import React, { ReactNode } from "react";
 import { redirect } from "next/navigation";
 
 import Sidebar from "@/components/Sidebar";
-import AddTask from "@/components/AddTask";
-import MeetingSchedule from "@/components/MeetingSchedule";
+import AddTaskModal from "@/components/modals/AddTaskModal";
+import MeetingSchedule from "@/components/modals/MeetingSchedule";
 import { auth } from "@/auth";
 import Navbar from "@/components/Navbar";
 import Pricing from "@/components/Pricing";
-import BoardModal from "@/components/BoardModal";
+import BoardModal from "@/components/modals/BoardModal";
 
 const Layout = async ({ children }: { children: ReactNode }) => {
   const session = await auth();
@@ -19,7 +19,7 @@ const Layout = async ({ children }: { children: ReactNode }) => {
       <Sidebar />
       <Navbar session={session} />
       Layout
-      <AddTask />
+      <AddTaskModal />
       <MeetingSchedule />
       <Pricing />
       <BoardModal />

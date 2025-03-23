@@ -7,8 +7,10 @@ interface AuthCredentials {
 }
 
 interface Board {
+  id?: string;
   title: string;
-  collaborators: string[];
+  owner?: string;
+  collaborators?: string[];
 }
 
 interface User {
@@ -22,4 +24,21 @@ interface User {
   priceId: string | null;
   status: string | null;
   createdAt: Date | null;
+}
+
+interface Task {
+  name: string;
+  board: string;
+  description: string;
+  priority: string;
+  startAt: Date;
+  endAt: Date;
+  timeLineColor: string;
+  collaborators: string[];
+}
+
+interface BoardCollaborator {
+  id: string;
+  boardId: string;
+  status: string | null;
 }

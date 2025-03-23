@@ -2,7 +2,7 @@
 
 import { auth } from "@/auth";
 import { db } from "@/database/drizzle";
-import { boardCollaborators, boards } from "@/database/schema";
+import { boardCollaborators, boards, users } from "@/database/schema";
 import { and, eq } from "drizzle-orm";
 
 export const createBoard = async (params: Board) => {
@@ -31,6 +31,8 @@ export const createBoard = async (params: Board) => {
       return { success: false, error: "Error creating board" };
     }
 
+    if (!params.collaborators) return;
+
     if (params.collaborators.length > 0) {
       const collaboratorsEntries = params.collaborators.map((collaborator) => ({
         boardId: newBoard.id,
@@ -52,4 +54,25 @@ export const createBoard = async (params: Board) => {
 
     return { success: false, error: error };
   }
+};
+
+export const getUserBoards = async () => {
+  const session = await auth();
+  const id = session?.user?.id!;
+
+  if (!id) return;
+
+  const result = await db.select().from(boards).where(eq(boards.owner, id));
+
+  return result;
+};
+
+export const getBoardCollaborators = async (boardId: string) => {
+  const result = await db
+    .select()
+    .from(boardCollaborators)
+    .innerJoin(users, eq(boardCollaborators.collaborator, users.email))
+    .where(eq(boardCollaborators.boardId, boardId));
+
+  return result || null;
 };

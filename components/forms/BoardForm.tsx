@@ -80,7 +80,7 @@ const BoardForm = ({ type, ...board }: Props) => {
   const onSubmit = async (values: z.infer<typeof boardSchema>) => {
     const result = await createBoard(values);
 
-    if (result.success) {
+    if (result?.success) {
       toast.success("Board added successfully.");
       hideBoardModal();
     } else {

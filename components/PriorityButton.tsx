@@ -3,12 +3,14 @@ import Image from "next/image";
 
 type Props = {
   type: "high" | "low" | "medium";
+  onClick?: () => void;
 };
 
-const PriorityButton = ({ type }: Props) => {
+const PriorityButton = ({ type, onClick }: Props) => {
   return (
     <Button
       className={`${type === "high" ? " border-[var(--highlighter-6)] bg-[var(--highlighter-6)]/20" : type === "medium" ? "border-[var(--highlighter-2)] bg-[var(--highlighter-2)]/20" : "border-[var(--primitives-gray-600)] bg-[var(--primitives-gray-600)]/20"} border-2 flex items-center justify-center font-medium w-full text-black capitalize hover:bg-transparent`}
+      onClick={onClick}
     >
       <Image
         src={

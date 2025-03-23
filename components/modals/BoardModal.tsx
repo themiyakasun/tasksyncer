@@ -3,7 +3,7 @@ import React from "react";
 
 import { useModalsStore } from "@/stores/modals";
 import Image from "next/image";
-import BoardForm from "@/components/BoardForm";
+import BoardForm from "@/components/forms/BoardForm";
 
 const BoardModal = () => {
   const { hideBoardModal, boardModalVisible } = useModalsStore(

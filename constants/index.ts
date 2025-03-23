@@ -38,3 +38,11 @@ export const prices = [
     priceId: "price_1R26ALFZSJCBgTIKqSUVP6gG",
   },
 ];
+
+export const timelineColors = [
+  { color: "#D1E3F5" },
+  { color: "#D3F5D3" },
+  { color: "#F6DDDD" },
+  { color: "#F6DFAD" },
+  { color: "#DFDAF8" },
+];

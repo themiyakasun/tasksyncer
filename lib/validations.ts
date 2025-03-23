@@ -22,3 +22,14 @@ export const boardCollaboratorsSchema = z.object({
   collaborator: z.string().email(),
   status: z.string().min(3),
 });
+
+export const taskSchema = z.object({
+  name: z.string().min(3),
+  board: z.string().min(0),
+  description: z.string().min(3),
+  priority: z.string().min(3),
+  startAt: z.date(),
+  endAt: z.date(),
+  timeLineColor: z.string().min(3),
+  collaborators: z.array(z.string()),
+});

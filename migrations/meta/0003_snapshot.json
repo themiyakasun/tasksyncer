@@ -1,6 +1,6 @@
 {
-  "id": "2d41f7d4-8aeb-436a-9269-d5ab0bb288b2",
-  "prevId": "b344ac9c-553a-4185-8164-a20df881b6ff",
+  "id": "ef0af316-d958-4f46-8462-16a2a943eb5f",
+  "prevId": "d728b5a7-1984-4bc5-be27-a8618a407f0b",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -126,6 +126,25 @@
       "checkConstraints": {},
       "isRLSEnabled": false
     },
+    "public.labs": {
+      "name": "labs",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
     "public.payments": {
       "name": "payments",
       "schema": "",
@@ -208,6 +227,151 @@
           ]
         }
       },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.tasks": {
+      "name": "tasks",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "board_id": {
+          "name": "board_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "description": {
+          "name": "description",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "priority": {
+          "name": "priority",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "start_at": {
+          "name": "start_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        },
+        "end_at": {
+          "name": "end_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        },
+        "timeline_color": {
+          "name": "timeline_color",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "tasks_board_id_boards_id_fk": {
+          "name": "tasks_board_id_boards_id_fk",
+          "tableFrom": "tasks",
+          "tableTo": "boards",
+          "columnsFrom": [
+            "board_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "tasks_id_unique": {
+          "name": "tasks_id_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.task_collaborators": {
+      "name": "task_collaborators",
+      "schema": "",
+      "columns": {
+        "task_id": {
+          "name": "task_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "collaborator": {
+          "name": "collaborator",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "task_collaborators_task_id_tasks_id_fk": {
+          "name": "task_collaborators_task_id_tasks_id_fk",
+          "tableFrom": "task_collaborators",
+          "tableTo": "tasks",
+          "columnsFrom": [
+            "task_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "task_collaborators_collaborator_board_collaborators_id_fk": {
+          "name": "task_collaborators_collaborator_board_collaborators_id_fk",
+          "tableFrom": "task_collaborators",
+          "tableTo": "board_collaborators",
+          "columnsFrom": [
+            "collaborator"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
       "policies": {},
       "checkConstraints": {},
       "isRLSEnabled": false

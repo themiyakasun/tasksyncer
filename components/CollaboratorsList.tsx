@@ -43,7 +43,7 @@ const CollaboratorsList = ({
                 email={filteredUser.email}
                 img={filteredUser.avatar}
                 key={filteredUser.id}
-                onSelect={onSelect}
+                onSelect={() => onSelect(filteredUser.email)}
               />
             ))}
     </div>

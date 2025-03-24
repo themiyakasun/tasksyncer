@@ -52,7 +52,7 @@ export const boardCollaborators = pgTable("board_collaborators", {
 });
 
 export const tasks = pgTable("tasks", {
-  id: uuid("id").notNull().defaultRandom().unique(),
+  id: uuid("id").notNull().primaryKey().defaultRandom().unique(),
   name: varchar("name", { length: 255 }).notNull(),
   boardId: uuid("board_id")
     .notNull()
@@ -69,11 +69,7 @@ export const tasksCollaborators = pgTable("task_collaborators", {
   taskId: uuid("task_id")
     .notNull()
     .references(() => tasks.id),
-  collaborator: uuid("collaborator")
+  collaborator: uuid("collaborator_id")
     .notNull()
     .references(() => boardCollaborators.id),
-});
-
-export const labs = pgTable("labs", {
-  id: uuid("id").notNull(),
 });

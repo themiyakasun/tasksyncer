@@ -68,11 +68,13 @@ export const getUserBoards = async () => {
 };
 
 export const getBoardCollaborators = async (boardId: string) => {
-  const result = await db
-    .select()
-    .from(boardCollaborators)
-    .innerJoin(users, eq(boardCollaborators.collaborator, users.email))
-    .where(eq(boardCollaborators.boardId, boardId));
+  if (boardId) {
+    const result = await db
+      .select()
+      .from(boardCollaborators)
+      .innerJoin(users, eq(boardCollaborators.collaborator, users.email))
+      .where(eq(boardCollaborators.boardId, boardId));
 
-  return result || null;
+    return result || null;
+  }
 };

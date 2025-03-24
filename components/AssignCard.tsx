@@ -8,9 +8,10 @@ type Props = {
   name: string;
   email: string;
   img: string;
+  id?: string;
   className?: string;
   organizer?: boolean;
-  onSelect: (email: string) => void;
+  onSelect: () => void;
 };
 
 const AssignCard = ({
@@ -24,7 +25,7 @@ const AssignCard = ({
   return (
     <div
       className={`flex items-center justify-between mb-5 cursor-pointer ${className && className}`}
-      onClick={() => onSelect(email)}
+      onClick={onSelect}
     >
       <div className="flex items-center gap-2">
         <IKImage

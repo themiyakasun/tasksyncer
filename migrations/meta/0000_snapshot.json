@@ -1,5 +1,5 @@
 {
-  "id": "b342ee24-8071-48ed-a548-4585076d6e3b",
+  "id": "6ee23e92-ded6-42e0-98bc-fc0f0624bf19",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -126,25 +126,6 @@
       "checkConstraints": {},
       "isRLSEnabled": false
     },
-    "public.labs": {
-      "name": "labs",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "uuid",
-          "primaryKey": false,
-          "notNull": true
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {},
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
-      "policies": {},
-      "checkConstraints": {},
-      "isRLSEnabled": false
-    },
     "public.payments": {
       "name": "payments",
       "schema": "",
@@ -238,7 +219,7 @@
         "id": {
           "name": "id",
           "type": "uuid",
-          "primaryKey": false,
+          "primaryKey": true,
           "notNull": true,
           "default": "gen_random_uuid()"
         },
@@ -266,8 +247,15 @@
           "primaryKey": false,
           "notNull": true
         },
-        "created_at": {
-          "name": "created_at",
+        "start_at": {
+          "name": "start_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        },
+        "end_at": {
+          "name": "end_at",
           "type": "timestamp with time zone",
           "primaryKey": false,
           "notNull": false,
@@ -278,6 +266,13 @@
           "type": "varchar(50)",
           "primaryKey": false,
           "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
         }
       },
       "indexes": {},
@@ -320,8 +315,8 @@
           "primaryKey": false,
           "notNull": true
         },
-        "collaborator": {
-          "name": "collaborator",
+        "collaborator_id": {
+          "name": "collaborator_id",
           "type": "uuid",
           "primaryKey": false,
           "notNull": true
@@ -342,12 +337,12 @@
           "onDelete": "no action",
           "onUpdate": "no action"
         },
-        "task_collaborators_collaborator_board_collaborators_id_fk": {
-          "name": "task_collaborators_collaborator_board_collaborators_id_fk",
+        "task_collaborators_collaborator_id_board_collaborators_id_fk": {
+          "name": "task_collaborators_collaborator_id_board_collaborators_id_fk",
           "tableFrom": "task_collaborators",
           "tableTo": "board_collaborators",
           "columnsFrom": [
-            "collaborator"
+            "collaborator_id"
           ],
           "columnsTo": [
             "id"

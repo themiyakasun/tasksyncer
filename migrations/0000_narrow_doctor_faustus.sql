@@ -14,10 +14,6 @@ CREATE TABLE "boards" (
 	CONSTRAINT "boards_id_unique" UNIQUE("id")
 );
 --> statement-breakpoint
-CREATE TABLE "labs" (
-	"id" uuid NOT NULL
-);
---> statement-breakpoint
 CREATE TABLE "payments" (
 	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
 	"amount" integer NOT NULL,
@@ -31,19 +27,21 @@ CREATE TABLE "payments" (
 );
 --> statement-breakpoint
 CREATE TABLE "tasks" (
-	"id" uuid DEFAULT gen_random_uuid() NOT NULL,
+	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
 	"name" varchar(255) NOT NULL,
 	"board_id" uuid NOT NULL,
 	"description" text,
 	"priority" varchar(50) NOT NULL,
-	"created_at" timestamp with time zone DEFAULT now(),
+	"start_at" timestamp with time zone DEFAULT now(),
+	"end_at" timestamp with time zone DEFAULT now(),
 	"timeline_color" varchar(50) NOT NULL,
+	"created_at" timestamp with time zone DEFAULT now(),
 	CONSTRAINT "tasks_id_unique" UNIQUE("id")
 );
 --> statement-breakpoint
 CREATE TABLE "task_collaborators" (
 	"task_id" uuid NOT NULL,
-	"collaborator" uuid NOT NULL
+	"collaborator_id" uuid NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE "users" (
@@ -67,4 +65,4 @@ ALTER TABLE "boards" ADD CONSTRAINT "boards_owner_id_users_id_fk" FOREIGN KEY ("
 ALTER TABLE "payments" ADD CONSTRAINT "payments_user_email_users_email_fk" FOREIGN KEY ("user_email") REFERENCES "public"."users"("email") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "tasks" ADD CONSTRAINT "tasks_board_id_boards_id_fk" FOREIGN KEY ("board_id") REFERENCES "public"."boards"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "task_collaborators" ADD CONSTRAINT "task_collaborators_task_id_tasks_id_fk" FOREIGN KEY ("task_id") REFERENCES "public"."tasks"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE "task_collaborators" ADD CONSTRAINT "task_collaborators_collaborator_board_collaborators_id_fk" FOREIGN KEY ("collaborator") REFERENCES "public"."board_collaborators"("id") ON DELETE no action ON UPDATE no action;
+ALTER TABLE "task_collaborators" ADD CONSTRAINT "task_collaborators_collaborator_id_board_collaborators_id_fk" FOREIGN KEY ("collaborator_id") REFERENCES "public"."board_collaborators"("id") ON DELETE no action ON UPDATE no action;

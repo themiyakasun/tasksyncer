@@ -16,10 +16,12 @@ const BoardCollaboratorsFilter = ({
   searchTerm,
   onSelect,
   boardId,
+  passId = false,
 }: {
   searchTerm: string;
-  onSelect: (email: string) => void;
+  onSelect: ({ id, email }: { id: string; email: string }) => void;
   boardId: string;
+  passId?: boolean;
 }) => {
   const [users, setUsers] = useState<BoardCollaboratorsFilterProps[]>([]);
 
@@ -33,7 +35,7 @@ const BoardCollaboratorsFilter = ({
     };
 
     fetchUsers();
-  }, []);
+  }, [boardId]);
 
   return (
     <div className="flex flex-col gap-2 mt-2">
@@ -51,7 +53,12 @@ const BoardCollaboratorsFilter = ({
                 email={filteredUser.users.email}
                 img={filteredUser.users.avatar}
                 key={filteredUser.users.id}
-                onSelect={onSelect}
+                onSelect={() =>
+                  onSelect({
+                    id: filteredUser.board_collaborators.id,
+                    email: filteredUser.users.email,
+                  })
+                }
               />
             ))}
     </div>

@@ -78,9 +78,9 @@ const AddTaskForm = ({ type, ...task }: Props) => {
     fetchBoards();
   }, []);
 
-  const addCollaborators = (email: string) => {
+  const addCollaborators = ({ id, email }: { id: string; email: string }) => {
     if (!collaborators.some((collaborator: string) => collaborator === email)) {
-      form.setValue("collaborators", [...collaborators, email]);
+      form.setValue("collaborators", [...collaborators, id]);
     }
   };
 
@@ -115,10 +115,10 @@ const AddTaskForm = ({ type, ...task }: Props) => {
     const result = await addTask(values);
 
     if (result?.success) {
-      toast.success("Board added successfully.");
+      toast.success("Task added successfully.");
       hideAddTaskModal();
     } else {
-      toast.error("Error creating board.");
+      toast.error("Error creating task.");
     }
   };
 
@@ -358,6 +358,7 @@ const AddTaskForm = ({ type, ...task }: Props) => {
                     <BoardCollaboratorsFilter
                       boardId={boardId}
                       searchTerm={searchTerm}
+                      passId={true}
                       onSelect={addCollaborators}
                     />
                   </div>

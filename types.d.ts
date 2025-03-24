@@ -11,6 +11,7 @@ interface Board {
   title: string;
   owner?: string;
   collaborators?: string[];
+  createdAt?: Date | null;
 }
 
 interface User {
@@ -41,4 +42,17 @@ interface BoardCollaborator {
   id: string;
   boardId: string;
   status: string | null;
+  collaborator?: string;
+}
+
+interface TaskGet {
+  id: string;
+  name: string;
+  boardId: string;
+  description: string | null;
+  priority: string;
+  startAt: Date | null;
+  endAt: Date | null;
+  timelineColor: string;
+  createdAt: Date | null;
 }

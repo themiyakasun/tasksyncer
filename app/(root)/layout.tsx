@@ -18,7 +18,8 @@ const Layout = async ({ children }: { children: ReactNode }) => {
     <div className="root-container">
       <Sidebar />
       <Navbar session={session} />
-      Layout
+      <div className="content-container col-span-1 row-span-2">{children}</div>
+
       <AddTaskModal />
       <MeetingSchedule />
       <Pricing />

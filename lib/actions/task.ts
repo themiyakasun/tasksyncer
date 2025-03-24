@@ -1,4 +1,8 @@
-import { tasks, tasksCollaborators } from "@/database/schema";
+import {
+  boardCollaborators,
+  tasks,
+  tasksCollaborators,
+} from "@/database/schema";
 import { db } from "@/database/drizzle";
 import { and, eq } from "drizzle-orm";
 
@@ -47,5 +51,20 @@ export const addTask = async (params: Task) => {
   } catch (error) {
     console.log(error);
     return { success: false, error: error };
+  }
+};
+
+export const getTasksOfBoard = async (boardId: string) => {
+  if (boardId) {
+    const result = await db
+      .select()
+      .from(tasks)
+      .innerJoin(
+        boardCollaborators,
+        eq(tasks.boardId, boardCollaborators.boardId),
+      )
+      .where(eq(tasks.boardId, boardId));
+
+    return result;
   }
 };

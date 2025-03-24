@@ -105,7 +105,7 @@ const Sidebar = () => {
         </button>
         <ul>
           <li>
-            <Link href="/" className="sidebar-item">
+            <Link href="/tasks" className="sidebar-item">
               <Image
                 src="/icons/task_outlined.svg"
                 alt="tasks"

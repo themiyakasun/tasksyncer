@@ -88,3 +88,9 @@ export const getUsersExceptOrganizer = async (id: string) => {
   const result = await db.select().from(users).where(ne(users.id, id));
   return result || null;
 };
+
+export const getUserByEmail = async (email: string) => {
+  const result = await db.select().from(users).where(eq(users.email, email));
+
+  return result || null;
+};

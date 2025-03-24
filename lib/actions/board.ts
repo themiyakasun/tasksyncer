@@ -78,3 +78,11 @@ export const getBoardCollaborators = async (boardId: string) => {
     return result || null;
   }
 };
+
+export const getOwnerBoards = async (id: string) => {
+  if (id) {
+    const result = await db.select().from(boards).where(eq(boards.owner, id));
+
+    return result || null;
+  }
+};

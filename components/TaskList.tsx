@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { AccordionContent } from "@/components/ui/accordion";
 import Image from "next/image";
 import TaskName from "@/components/TaskName";
-import { getTasksOfBoard } from "@/lib/actions/task";
+import { getTasksOfBoard, getTasksOfCollaborators } from "@/lib/actions/task";
 import AssignedList from "@/components/AssignedList";
 
 interface TaskListProps {
@@ -12,21 +12,39 @@ interface TaskListProps {
   board_collaborators: BoardCollaborator;
 }
 
-const TaskList = ({ id }: { id: string }) => {
-  const [tasks, setTasks] = useState<TaskListProps[]>([]);
+const TaskList = ({
+  boardId,
+  userId,
+}: {
+  boardId: string;
+  userId?: string;
+}) => {
+  const [allTasks, setAllTasks] = useState<TaskListProps[]>([]);
+  const [collaboratorsTasks, setCollaboratorsTasks] = useState<
+    TasksCollaborator[] | undefined
+  >([]);
 
   useEffect(() => {
     const fetchTasks = async () => {
-      if (id) {
-        const result = await getTasksOfBoard(id);
+      if (boardId) {
+        const result = await getTasksOfBoard(boardId);
 
         if (result) {
-          setTasks(result);
+          setAllTasks(result);
+        }
+
+        if (userId) {
+          const collaboratorsTasks = await getTasksOfCollaborators({
+            boardId,
+            userId,
+          });
+
+          setCollaboratorsTasks(collaboratorsTasks);
         }
       }
     };
     fetchTasks();
-  }, [id]);
+  }, [userId]);
 
   return (
     <AccordionContent>
@@ -58,8 +76,8 @@ const TaskList = ({ id }: { id: string }) => {
           </tr>
         </thead>
         <tbody>
-          {tasks.length > 0 ? (
-            tasks.map((task, index) => (
+          {allTasks.length > 0 ? (
+            allTasks.map((task, index) => (
               <tr
                 className="border-y border-[var(--primitives-gray-200)]"
                 key={index}

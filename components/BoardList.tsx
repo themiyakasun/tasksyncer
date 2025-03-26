@@ -13,7 +13,7 @@ import TaskName from "@/components/TaskName";
 import { getCollaboratorBoards, getOwnerBoards } from "@/lib/actions/board";
 import TaskList from "@/components/TaskList";
 
-const BoardList = ({ id, email }: { id?: string; email?: string }) => {
+const BoardList = ({ id, email }: { id: string; email: string }) => {
   const [ownerBoards, setOwnerBoards] = useState<Board[]>([]);
   const [collaboratorsBoards, setCollaboratorsBoards] = useState<
     BoardCollaborators[]
@@ -50,7 +50,7 @@ const BoardList = ({ id, email }: { id?: string; email?: string }) => {
             <AccordionTrigger className="capitalize">
               {board.title}
             </AccordionTrigger>
-            {board.id && <TaskList id={board.id as string}></TaskList>}
+            {board.id && <TaskList boardId={board.id as string}></TaskList>}
           </AccordionItem>
         ))
       ) : collaboratorsBoards.length > 0 ? (
@@ -60,7 +60,10 @@ const BoardList = ({ id, email }: { id?: string; email?: string }) => {
               {board.boards.title}
             </AccordionTrigger>
             {board.boards.id && (
-              <TaskList id={board.boards.id as string}></TaskList>
+              <TaskList
+                boardId={board.boards.id as string}
+                userId={board.board_collaborators.id}
+              ></TaskList>
             )}
           </AccordionItem>
         ))

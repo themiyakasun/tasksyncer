@@ -68,3 +68,21 @@ export const getTasksOfBoard = async (boardId: string) => {
     return result;
   }
 };
+
+export const getTasksOfCollaborators = async ({
+  boardId,
+  userId,
+}: {
+  boardId: string;
+  userId: string;
+}) => {
+  if (boardId && userId) {
+    const result = await db
+      .select()
+      .from(tasksCollaborators)
+      .innerJoin(tasks, eq(tasks.boardId, boardId))
+      .where(eq(tasksCollaborators.collaborator, userId));
+
+    return result;
+  }
+};

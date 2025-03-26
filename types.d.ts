@@ -71,3 +71,21 @@ interface BoardCollaborators {
     createdAt: Date | null;
   };
 }
+
+interface TasksCollaborator {
+  tasks: {
+    id: string;
+    name: string;
+    boardId: string;
+    description: string | null;
+    priority: string;
+    startAt: Date | null;
+    endAt: Date | null;
+    timelineColor: string;
+    createdAt: Date | null;
+  };
+  task_collaborators: {
+    taskId: string;
+    collaborator: string;
+  };
+}

@@ -56,3 +56,18 @@ interface TaskGet {
   timelineColor: string;
   createdAt: Date | null;
 }
+
+interface BoardCollaborators {
+  board_collaborators: {
+    id: string;
+    boardId: string;
+    collaborator: string;
+    status: string | null;
+  };
+  boards: {
+    id: string;
+    title: string;
+    owner: string;
+    createdAt: Date | null;
+  };
+}

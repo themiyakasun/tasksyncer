@@ -10,21 +10,31 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import TaskName from "@/components/TaskName";
-import { getOwnerBoards } from "@/lib/actions/board";
+import { getCollaboratorBoards, getOwnerBoards } from "@/lib/actions/board";
 import TaskList from "@/components/TaskList";
 
-const BoardList = ({ id }: { id: string }) => {
-  const [boards, setBoards] = useState<Board[]>([]);
+const BoardList = ({ id, email }: { id?: string; email?: string }) => {
+  const [ownerBoards, setOwnerBoards] = useState<Board[]>([]);
+  const [collaboratorsBoards, setCollaboratorsBoards] = useState<
+    BoardCollaborators[]
+  >([]);
 
   useEffect(() => {
-    const fetchOwnerBoards = async () => {
-      const result = await getOwnerBoards(id);
-
-      if (result) {
-        setBoards(result);
+    const fetchBoards = async () => {
+      if (id) {
+        const OwnerResult = await getOwnerBoards(id);
+        if (OwnerResult) {
+          setOwnerBoards(OwnerResult);
+        }
+      }
+      if (email) {
+        const CollaboratorsResult = await getCollaboratorBoards(email);
+        if (CollaboratorsResult) {
+          setCollaboratorsBoards(CollaboratorsResult);
+        }
       }
     };
-    fetchOwnerBoards();
+    fetchBoards();
   }, [id]);
 
   return (
@@ -34,14 +44,29 @@ const BoardList = ({ id }: { id: string }) => {
       collapsible
       className="w-full"
     >
-      {boards.map((board, index) => (
-        <AccordionItem value={`item-${index}`} key={index}>
-          <AccordionTrigger className="capitalize">
-            {board.title}
-          </AccordionTrigger>
-          {board.id && <TaskList id={board.id as string}></TaskList>}
-        </AccordionItem>
-      ))}
+      {ownerBoards.length > 0 ? (
+        ownerBoards.map((board, index) => (
+          <AccordionItem value={`item-${index}`} key={index}>
+            <AccordionTrigger className="capitalize">
+              {board.title}
+            </AccordionTrigger>
+            {board.id && <TaskList id={board.id as string}></TaskList>}
+          </AccordionItem>
+        ))
+      ) : collaboratorsBoards.length > 0 ? (
+        collaboratorsBoards.map((board, index) => (
+          <AccordionItem value={`item-${index}`} key={index}>
+            <AccordionTrigger className="capitalize">
+              {board.boards.title}
+            </AccordionTrigger>
+            {board.boards.id && (
+              <TaskList id={board.boards.id as string}></TaskList>
+            )}
+          </AccordionItem>
+        ))
+      ) : (
+        <h1>No Boards found</h1>
+      )}
     </Accordion>
   );
 };

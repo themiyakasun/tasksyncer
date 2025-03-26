@@ -86,3 +86,15 @@ export const getOwnerBoards = async (id: string) => {
     return result || null;
   }
 };
+
+export const getCollaboratorBoards = async (email: string) => {
+  if (email) {
+    const result = await db
+      .select()
+      .from(boardCollaborators)
+      .innerJoin(boards, eq(boardCollaborators.boardId, boards.id))
+      .where(eq(boardCollaborators.collaborator, email));
+
+    return result;
+  }
+};

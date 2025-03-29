@@ -2,6 +2,7 @@ import {
   boardCollaborators,
   tasks,
   tasksCollaborators,
+  users,
 } from "@/database/schema";
 import { db } from "@/database/drizzle";
 import { and, eq } from "drizzle-orm";
@@ -82,6 +83,18 @@ export const getTasksOfCollaborators = async ({
       .from(tasksCollaborators)
       .innerJoin(tasks, eq(tasks.boardId, boardId))
       .where(eq(tasksCollaborators.collaborator, userId));
+
+    return result;
+  }
+};
+
+export const getTasksCollaborators = async (boardCollabId: string) => {
+  if (boardCollabId) {
+    const result = await db
+      .select()
+      .from(boardCollaborators)
+      .innerJoin(users, eq(boardCollaborators.collaborator, users.email))
+      .where(eq(boardCollaborators.id, boardCollabId));
 
     return result;
   }

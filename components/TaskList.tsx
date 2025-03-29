@@ -28,9 +28,12 @@ const TaskList = ({
     const fetchTasks = async () => {
       if (boardId) {
         const result = await getTasksOfBoard(boardId);
+        console.log("Fetched Tasks for Board:", boardId, result);
 
         if (result) {
-          setAllTasks(result);
+          setAllTasks([
+            ...new Map(result.map((task) => [task.tasks.id, task])).values(),
+          ]);
         }
 
         if (userId) {
@@ -44,7 +47,9 @@ const TaskList = ({
       }
     };
     fetchTasks();
-  }, [userId]);
+  }, [userId, boardId]);
+
+  console.log(collaboratorsTasks);
 
   return (
     <AccordionContent>
@@ -76,7 +81,63 @@ const TaskList = ({
           </tr>
         </thead>
         <tbody>
-          {allTasks.length > 0 ? (
+          {collaboratorsTasks && collaboratorsTasks.length > 0 ? (
+            collaboratorsTasks.map((task, index) => (
+              <tr
+                className="border-y border-[var(--primitives-gray-200)]"
+                key={index}
+              >
+                <td className="tdata-item">
+                  <TaskName taskName={task.tasks.name} />
+                </td>
+                <td className="tdata-item">
+                  <AssignedList
+                    userId={task.task_collaborators.collaborator as string}
+                  />
+                </td>
+                <td className="tdata-item">
+                  <div className="flex items-center gap-1">
+                    <Image
+                      src="/icons/done-green.png"
+                      alt="done"
+                      width={24}
+                      height={24}
+                    />
+                    <span className="text-sm text-black">Done</span>
+                  </div>
+                </td>
+                <td className="tdata-item">
+                  <div className="flex items-center gap-1">
+                    <Image
+                      src={
+                        task.tasks.priority === "high"
+                          ? "/icons/high-priority.png"
+                          : task.tasks.priority === "medium"
+                            ? "/icons/medium-priority.png"
+                            : "/icons/low-priority.png"
+                      }
+                      alt={task.tasks.priority}
+                      width={17}
+                      height={17}
+                    />
+                    <span className="text-sm text-black capitalize">
+                      {task.tasks.priority}
+                    </span>
+                  </div>
+                </td>
+                <td className="tdata-item pr-0">
+                  <button className="flex items-center justify-center w-full">
+                    <Image
+                      src="/icons/menu-gray.png"
+                      alt="menu"
+                      width={24}
+                      height={24}
+                    />
+                  </button>
+                </td>
+              </tr>
+            ))
+          ) : allTasks.length > 0 ? (
             allTasks.map((task, index) => (
               <tr
                 className="border-y border-[var(--primitives-gray-200)]"
@@ -134,7 +195,7 @@ const TaskList = ({
             ))
           ) : (
             <tr>
-              <td>No Tasks Available</td>
+              <td colSpan={5}>No Tasks Available</td>
             </tr>
           )}
         </tbody>

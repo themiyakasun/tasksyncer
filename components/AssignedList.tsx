@@ -5,34 +5,57 @@ import Image from "next/image";
 import { getUserByEmail } from "@/lib/actions/auth";
 import { IKImage } from "imagekitio-next";
 import config from "@/lib/config";
+import { getTasksCollaborators } from "@/lib/actions/task";
 
-const AssignedList = ({ email }: { email: string }) => {
+const AssignedList = ({
+  email,
+  userId,
+}: {
+  email?: string;
+  userId?: string;
+}) => {
   const [assignedList, setAssignedList] = useState<User[]>([]);
+  const [assignedUsers, setAssignedUsers] = useState<TaskUser[]>([]);
 
   useEffect(() => {
     const fetchAssignedList = async () => {
-      const result = await getUserByEmail(email);
+      if (email) {
+        const result = await getUserByEmail(email);
 
-      if (result) {
-        setAssignedList(result);
+        if (result) {
+          setAssignedList(result);
+        }
+      }
+      if (userId) {
+        const result = await getTasksCollaborators(userId);
+        setAssignedUsers(
+          result.map((task) => ({
+            users: task.users,
+            board_collaborators: task.board_collaborators ?? [], // Ensure array format
+          })),
+        );
       }
     };
     fetchAssignedList();
-  }, [email]);
+  }, [email, userId]);
 
   return (
     <div className="flex">
-      {assignedList.map((user) => (
-        <IKImage
-          path={user.avatar}
-          urlEndpoint={config.env.imageKit.urlEndPoint}
-          alt="user-1"
-          className="rounded-full"
-          width={24}
-          height={24}
-          key={user.id}
-        />
-      ))}
+      {assignedList.length > 0 ? (
+        assignedList.map((user) => (
+          <IKImage
+            path={user.avatar}
+            urlEndpoint={config.env.imageKit.urlEndPoint}
+            alt="user-1"
+            className="rounded-full"
+            width={24}
+            height={24}
+            key={user.id}
+          />
+        ))
+      ) : (
+        <h1>No Contributors</h1>
+      )}
     </div>
   );
 };

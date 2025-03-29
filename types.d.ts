@@ -89,3 +89,19 @@ interface TasksCollaborator {
     collaborator: string;
   };
 }
+
+interface TaskUser {
+  users: {
+    id: string;
+    fullName: string;
+    email: string;
+    phoneNumber: string;
+    password: string;
+    avatar: string;
+    customerId: string | null;
+    priceId: string | null;
+    status: string | null;
+    createdAt: Date | null;
+  };
+  board_collaborators: BoardCollaborator[];
+}

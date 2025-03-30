@@ -103,5 +103,10 @@ interface TaskUser {
     status: string | null;
     createdAt: Date | null;
   };
-  board_collaborators: BoardCollaborator[];
+  board_collaborators: {
+    id: string;
+    boardId: string;
+    collaborator: string;
+    status: string | null;
+  };
 }
